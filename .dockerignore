@@ -1,0 +1,51 @@
+# /checkpoints/baseline_challenge_model/
+# /checkpoints/detr/
+# /checkpoints/detr_custom/
+# /checkpoints/Effdet2_nopre_aug/
+# /checkpoints/Effdet4_no_os_pretrain/
+# /checkpoints/Effdet4_OS_bs8/
+# /checkpoints/fcrnn_mybase/
+# /checkpoints/FCRNN_scratch_aug/
+# /checkpoints/retina_os_0005/
+# /checkpoints/detr_v3_frozenBN/
+# /checkpoints/Effdet2_vindr_v3/
+# /checkpoints/Effdet2_vindr_v3_generated/
+# /checkpoints/retina_scratch_aug_v3/
+# /checkpoints/FCRNN_scratch_v3_SWA/
+# /checkpoints/yolo_base/
+# /checkpoints/yolo_base/
+# /checkpoints/FCRNN_v5_noCV/
+# /checkpoints/yolo_640_tuned/
+# /checkpoints/yolo_640_gen/
+# /checkpoints/final_models/detr_1024_gen
+# /checkpoints/final_models/detr_512_gen
+# /checkpoints/final_models/retina_512
+# /checkpoints/final_models/retina_1024
+# /checkpoints/final_models/effdet_512
+# /checkpoints/final_models/effdet_1024
+# /checkpoints/final_models/fcrnn_512
+# /checkpoints/final_models/fcrnn_1024
+# /checkpoints/final_models/fcrnn_512_gen
+# /checkpoints/final_models/retina_512_gen
+# /checkpoints/final_models/effdet2_512_gen
+# /checkpoints/final_models/fcrnn_1024_gen
+# /checkpoints/final_models/retina_1024_gen
+# /checkpoints/final_models/effdet2_1024_gen
+# /checkpoints/notest_final/effdet2_1024_gen
+# /checkpoints/notest_final/effdet2_512_gen
+# /checkpoints/notest_final/fcrnn_512_gen
+# /checkpoints/notest_final/retina_512_gen
+# /checkpoints/final_models/*
+/checkpoints/**
+!/checkpoints/notest_final/**
+fasterrcnn_resnet50_fpn_coco-258fb6c6.pth
+resnet50-19c8e357.pth
+/training_utils/yolov5/runs/*
+/test/images/*
+/test/labels/*
+/output/*
+/input_train/*
+*.gz
+# /checkpoints/retrain/*
+# resnet50-0676ba61.pth
+retinanet_resnet50_fpn_coco-eeacb38b.pth

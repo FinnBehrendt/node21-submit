@@ -1,0 +1,63 @@
+program: run.py
+
+project: ensembling-node21
+
+description: "sweep ensembling params"
+
+method: grid
+
+
+parameters:
+
+  skip_boxes:
+    distribution: categorical
+    values :
+      - .01
+      - .05
+      - .1
+      - .2
+  iou_thresh:
+    distribution: categorical
+    values :
+      - .2
+      - .3
+      - .4
+      - .5
+      # - 0.000005
+
+  # +cfg.thresh_detr:
+  #   distribution: categorical
+  #   values :
+  #     - .01
+  #     - .05
+  #     - .1
+  #     - .2
+  thresh_effdet:
+    distribution: categorical
+    values :
+      - .01
+      # - .05
+      # - .1
+      # - .2
+  thresh_yolo: 
+    distribution: categorical
+    values :
+      - .01
+      # - .05
+      # - .1
+      # - .2
+  iou_yolo: 
+    distribution: categorical
+    values :
+      - .2
+      # - .3
+      # - .4
+      # - .5
+command:
+  # - ${interpreter}
+  # - /home/Behrendt/anaconda3/envs/plt-uad/bin/python
+  - ${interpreter}
+  - run_ensembling.py
+  - ${args_no_hyphens}
+  - experiment=Baseline_vindr_FasterCNN_SWA
+  
