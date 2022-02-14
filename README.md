@@ -5,4 +5,4 @@ It contains files to build a docker image which can be submitted as an algorithm
 
 The code in this repository is based on [this](https://grand-challenge.org/algorithms/final-submission-mtec/) template repository with docker and evalutils.  
 
-
+For the generation of additional Nodules, only the process.py script from the [generation track](https://github.com/node21challenge/node21_generation_baseline) template was modified (see /src/nodule_generation/) to generate the nodules given in nodules_to_generate.csv. In addition to the csv file, the algorithm requires the images to work with as input.
