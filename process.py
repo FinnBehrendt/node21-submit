@@ -277,7 +277,6 @@ class Noduledetection(DetectionAlgorithm):
             train_sets = []
             val_sets = []
             ## Create 5 CV-Folds in a grouped and stratified fashion (we dont want data leaks)
-            # To be done: For Yolo, individual nodules are not grouped for eah patient. This is handled only in the lightning pipeline so far. 
             for fold , (train_inds, test_inds) in enumerate(cv.split(X=train_df, y=train_df.label, groups=train_df.img_name)):
                 train_df_cv = train_df.iloc[train_inds]
                 val_df_cv = train_df.iloc[test_inds]
