@@ -110,8 +110,8 @@ output/
 Example_algorithm_test.ipynb
 *.tar.gz
 checkpoints/*
-*.pth
-*.ckpt
+# *.pth
+# *.ckpt
 test/*
 input_train/*
 /training_utils/yolov5/runs/*
