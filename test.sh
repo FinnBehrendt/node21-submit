@@ -4,14 +4,14 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 # echo $SCRIPTPATH
 . ./build.sh
 
-docker volume create noduledetection-output
+# docker volume create noduledetection-output
 # docker run --rm nvidia-smi
-docker run --rm \
-        --network none \
-        --memory=11g \
-        -v $SCRIPTPATH/test/:/input/ \
-        -v noduledetection-output:/output/ \
-        noduledetector
+# docker run --rm \
+#         --network none \
+#         --memory=11g \
+#         -v $SCRIPTPATH/test/:/input/ \
+#         -v noduledetection-output:/output/ \
+#         noduledetector
 # docker run --rm \
 #         --network none \
 #         --memory=11g \
@@ -36,6 +36,6 @@ docker run --rm \
 #     echo "Expected output was not found..."
 # fi
 
-docker volume rm noduledetection-output
+# docker volume rm noduledetection-output
 
 

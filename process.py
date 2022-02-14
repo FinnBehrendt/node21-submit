@@ -60,7 +60,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 # update
 # update
 
-execute_in_docker = False 
+execute_in_docker = True 
 
 if not execute_in_docker :
     print('NOT IN DOCKER MODE') 
