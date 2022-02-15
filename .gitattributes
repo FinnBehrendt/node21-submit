@@ -24,3 +24,4 @@ checkpoints/notest_final/yolo_640_gen/fold-3-best.pt filter=lfs diff=lfs merge=l
 F1_E79_ModelX_v4_T0.325_V0.410.ckpt filter=lfs diff=lfs merge=lfs -text
 fastercnn50.pth filter=lfs diff=lfs merge=lfs -text
 resnet50-0676ba61.pth filter=lfs diff=lfs merge=lfs -text
+yolo5x_vindr.pt filter=lfs diff=lfs merge=lfs -text

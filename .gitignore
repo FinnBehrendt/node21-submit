@@ -148,4 +148,5 @@ input_train/*
 !checkpoints/notest_final/yolo_640_gen/fold-1-best.pt 
 !checkpoints/notest_final/yolo_640_gen/fold-2-best.pt 
 !checkpoints/notest_final/yolo_640_gen/fold-3-best.pt 
+!yolo5x_vindr.pt
 
