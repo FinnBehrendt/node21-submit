@@ -8,7 +8,7 @@ docker volume create noduledetection-output
 # docker run --rm nvidia-smi
 docker run --rm \
         --network none \
-        --gpus all \
+        --gpus 0 \
         --memory=11g \
         --shm-size 8G \
         -e NVIDIA_VISIBLE_DEVICES=0 \

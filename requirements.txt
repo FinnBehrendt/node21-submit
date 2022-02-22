@@ -1,8 +1,3 @@
-# --find-links https://download.pytorch.org/whl/torch_stable.html 
-# --find-links https://download.pytorch.org/whl/torch_stable.html 
-# torchvision==0.10.0+cu111 
-# torchaudio==0.9.0
-# torch==1.10.0+cu113
 albumentations
 effdet
 timm
@@ -100,12 +95,7 @@ shortuuid==1.0.7
 smmap==5.0.0
 subprocess32==3.5.4
 tenacity==8.0.1
-# tensorboard==2.7.0
-# tensorboard-data-server==0.6.1
-# tensorboard-plugin-wit==1.8.0
-# tensorflow==2.7.0
-# # tensorflow-estimator==2.7.0
-# tensorflow-io-gcs-filesystem==0.22.0
+
 termcolor==1.1.0
 text-unidecode==1.3
 threadpoolctl==3.0.0
@@ -122,8 +112,3 @@ wget==3.2
 wrapt==1.13.3
 yarl==1.7.2
 yaspin==2.1.0
-# torch==1.10.2+cu113 
-# torchvision==0.11.3+cu113 
-# torchaudio===0.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-# --find-links https://download.pytorch.org/whl/cu111/torch_stable.html
-# --find-links https://download.pytorch.org/whl/torch_stable.html 

@@ -13,16 +13,17 @@ RUN mkdir -p /opt/algorithm/checkpoints/ /input /output /opt/algorithm/src/ /opt
 
 RUN mkdir -p /opt/algorithm/checkpoints/retrain/yolo_s \
     /opt/algorithm/checkpoints/retrain/yolo_l \
-    /opt/algorithm/checkpoints/retrain/effdet_s \
-    /opt/algorithm/checkpoints/retrain/effdet_l \
+    /opt/algorithm/checkpoints/retrain/effdet2_s \
+    /opt/algorithm/checkpoints/retrain/effdet2_l \
     /opt/algorithm/checkpoints/retrain/fcrnn_s \
     /opt/algorithm/checkpoints/retrain/fcrnn_l \
     /opt/algorithm/checkpoints/retrain/retina_s \
     /opt/algorithm/checkpoints/retrain/retina_l \
     /opt/algorithm/wandb/ \
-    && chown algorithm:algorithm  /opt/algorithm/checkpoints/retrain/yolo_l \
-    /opt/algorithm/checkpoints/retrain/effdet_s \
-    /opt/algorithm/checkpoints/retrain/effdet_l \
+    && chown algorithm:algorithm  /opt/algorithm/checkpoints/retrain/yolo_s/ \
+    /opt/algorithm/checkpoints/retrain/yolo_l \
+    /opt/algorithm/checkpoints/retrain/effdet2_s \
+    /opt/algorithm/checkpoints/retrain/effdet2_l \
     /opt/algorithm/checkpoints/retrain/fcrnn_s \
     /opt/algorithm/checkpoints/retrain/fcrnn_l \
     /opt/algorithm/checkpoints/retrain/retina_s \
