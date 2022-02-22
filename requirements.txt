@@ -1,6 +1,7 @@
 # --find-links https://download.pytorch.org/whl/torch_stable.html 
-torchvision
-torchaudio
+# --find-links https://download.pytorch.org/whl/torch_stable.html 
+# torchvision==0.10.0+cu111 
+# torchaudio==0.9.0
 # torch==1.10.0+cu113
 albumentations
 effdet
@@ -121,4 +122,8 @@ wget==3.2
 wrapt==1.13.3
 yarl==1.7.2
 yaspin==2.1.0
---find-links https://download.pytorch.org/whl/torch_stable.html 
+# torch==1.10.2+cu113 
+# torchvision==0.11.3+cu113 
+# torchaudio===0.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+# --find-links https://download.pytorch.org/whl/cu111/torch_stable.html
+# --find-links https://download.pytorch.org/whl/torch_stable.html 

@@ -1,4 +1,4 @@
 #!/bin/sh
 params="$@"
 echo parameters are $params
-python process.py /input /output $params
+python3.7 process.py /input /output $params

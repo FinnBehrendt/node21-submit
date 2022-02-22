@@ -1,11 +1,11 @@
 # Edit the base image here, e.g., to use 
 # TENSORFLOW (https://hub.docker.com/r/tensorflow/tensorflow/) 
 # or a different PYTORCH (https://hub.docker.com/r/pytorch/pytorch/) base image
-FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-runtime
+# FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-runtime
 # FROM pytorch/pytorch:1.10.0-cuda11.3-cudnn8-devel
-
+FROM pytorch/pytorch:1.9.1-cuda11.1-cudnn8-runtime
 # FROM pytorch/pytorch:latest
-FROM continuumio/anaconda3
+# FROM continuumio/anaconda3
 RUN groupadd -r algorithm && useradd -m --no-log-init -r -g algorithm algorithm
 
 RUN mkdir -p /opt/algorithm/checkpoints/ /input /output /opt/algorithm/src/ /opt/conda  \

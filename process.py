@@ -84,7 +84,8 @@ class Noduledetection(DetectionAlgorithm):
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print('using the device ', self.device)
-        print(torch.__version__)
+        print('torch version: ',torch.__version__)
+        print('python version: ',sys.version)
         self.input_path, self.output_path = input_dir, output_dir
 
         self.model_ckpt_dir = "/opt/algorithm/checkpoints/retrain/" if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/output/retrain/"
@@ -619,7 +620,7 @@ class Noduledetection(DetectionAlgorithm):
         parser.add_argument('--single-cls', action='store_true', help='train multi-class data as single-class')
         parser.add_argument('--adam', action='store_true', help='use torch.optim.Adam() optimizer')
         parser.add_argument('--sync-bn', action='store_true', help='use SyncBatchNorm, only available in DDP mode')
-        parser.add_argument('--workers', type=int, default=8, help='max dataloader workers (per RANK in DDP mode)')
+        parser.add_argument('--workers', type=int, default=2, help='max dataloader workers (per RANK in DDP mode)')
         parser.add_argument('--project', default=ROOT / 'runs/train', help='save to project/name')
         parser.add_argument('--name', default='exp', help='save to project/name')
         parser.add_argument('--exist-ok',default=True, help='existing project/name ok, do not increment')

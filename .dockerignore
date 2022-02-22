@@ -37,7 +37,7 @@
 # /checkpoints/notest_final/retina_512_gen
 # /checkpoints/final_models/*
 /checkpoints/**
-!/checkpoints/notest_final/effdet2_1024_gen
+!/checkpoints/notest_final/effdet_1024_gen
 !/checkpoints/notest_final/fcrnn_1024_gen
 !/checkpoints/notest_final/retina_1024_gen
 !/checkpoints/notest_final/yolo_1024_gen

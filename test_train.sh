@@ -2,17 +2,20 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 # echo $SCRIPTPATH
-. ./build.sh
+# . ./build.sh
 
 docker volume create noduledetection-output
 # docker run --rm nvidia-smi
 docker run --rm \
         --network none \
+        --gpus all \
         --memory=11g \
+        --shm-size 8G \
+        -e NVIDIA_VISIBLE_DEVICES=0 \
         -v $SCRIPTPATH/input_train/:/input/ \
         -v noduledetection-output:/output/ \
         noduledetector \
-        --retrain
+        --train
 
 # docker run --rm -v noduledetection-output:/output/ python:3.7-slim cat /output/nodules.json | python3 -m json.tool
 # echo "inputs"

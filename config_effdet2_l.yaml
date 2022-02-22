@@ -60,7 +60,7 @@ datamodule:
     replacement: True # TBI
     num_gpus : 1
     batch_size: 8
-    num_workers: 4
+    num_workers: 2
     lr : 0.001
     test: False
     colorJitter: False
@@ -90,7 +90,7 @@ trainer:
   # set `1` to train on GPU, `0` to train on CPU only
   #gpus: 2
 
-  gpus: -1 # -1
+  gpus: [0] # -1
   min_epochs: 1
   max_epochs: 20
   gradient_clip_val: 3.0
