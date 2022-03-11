@@ -60,7 +60,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 # update
 # update
 
-execute_in_docker = True 
+execute_in_docker = True
 
 if not execute_in_docker :
     print('NOT IN DOCKER MODE') 
@@ -74,8 +74,8 @@ class Noduledetection(DetectionAlgorithm):
                     UniquePathIndicesValidator(),
                 )
             ),
-            input_path = Path(input_dir) if execute_in_docker else Path('//home/Behrendt/projects/Node21/node21-submit/test/'),
-            output_file = Path(os.path.join(output_dir,'nodules.json')) if execute_in_docker else Path(os.path.join('//home/Behrendt/projects/Node21/node21-submit/output/','nodules.json'))
+            input_path = Path(input_dir) if execute_in_docker else Path('//home/Behrendt/nodetest/node21-submit/test/'),
+            output_file = Path(os.path.join(output_dir,'nodules.json')) if execute_in_docker else Path(os.path.join('//home/Behrendt/nodetest/node21-submit/output/','nodules.json'))
 
         )
         self.retrain = retrain
@@ -88,8 +88,8 @@ class Noduledetection(DetectionAlgorithm):
         print('python version: ',sys.version)
         self.input_path, self.output_path = input_dir, output_dir
 
-        self.model_ckpt_dir = "/opt/algorithm/checkpoints/retrain/" if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/output/retrain/"
-        path_prefix_base = Path("/opt/algorithm/checkpoints/") if execute_in_docker else Path("//home/Behrendt/projects/Node21/node21-submit/checkpoints/")
+        self.model_ckpt_dir = "/opt/algorithm/checkpoints/retrain/" if execute_in_docker else "//home/Behrendt//nodetest/node21-submit/output/retrain/"
+        path_prefix_base = Path("/opt/algorithm/checkpoints/") if execute_in_docker else Path("//home/Behrendt/nodetest/node21-submit/checkpoints/")
         if not retest:
             path_prefix = {
                             'fcrnn_l': os.path.join(path_prefix_base,Path("notest_final/fcrnn_1024_gen//")), # all possible architectures
@@ -178,17 +178,17 @@ class Noduledetection(DetectionAlgorithm):
 
             
             if 'effdet' in str(path_prefix[arch]).lower():
-                del archs[arch]['fold-1']
-                del self.models[arch]['fold-1'] 
+                del archs[arch]['fold-2']
+                del self.models[arch]['fold-2'] 
                 del archs[arch]['fold-5']
                 del self.models[arch]['fold-5'] 
                 del archs[arch]['fold-4']
                 del self.models[arch]['fold-4'] 
                 del archs[arch]['fold-3']
                 del self.models[arch]['fold-3'] 
-            elif 'yolo_l' in str(path_prefix[arch]).lower():
-                del archs[arch]['fold-2']
-                del self.models[arch]['fold-2']
+            # elif 'yolo_l' in str(path_prefix[arch]).lower():
+            #     del archs[arch]['fold-2']
+            #     del self.models[arch]['fold-2']
                 
             for fold in archs[arch]: # for all models
                 self.effdet = False 
@@ -209,7 +209,7 @@ class Noduledetection(DetectionAlgorithm):
                             self.model = Detector.load_from_checkpoint(ckpt,map_location=self.device)
                             print('USING D')
                         elif 'yolo' in str(ckpt).lower():       
-                            modelpath = Path("/opt/algorithm/training_utils/yolov5") if execute_in_docker else Path("//home/Behrendt/projects/Node21/node21-submit/training_utils/yolov5/")
+                            modelpath = Path("/opt/algorithm/training_utils/yolov5") if execute_in_docker else Path("//home/Behrendt/nodetest/node21-submit/training_utils/yolov5/")
                             self.model = torch.hub.load(modelpath, 'custom', path=ckpt, autoshape=True,force_reload=True, source='local') # local model
                             self.yolo = True
                             print('USING Y')
@@ -262,8 +262,8 @@ class Noduledetection(DetectionAlgorithm):
         for modelname in self.models:
             yolo = 'yolo' in modelname
             ## Load Data 
-            input_dir = self.input_path if execute_in_docker else Path("//home/Behrendt/projects/Node21/node21-submit/input_train/")
-            output_dir = self.output_path if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/output/"
+            input_dir = self.input_path if execute_in_docker else Path("//home/Behrendt/nodetest/node21-submit/input_train/")
+            output_dir = self.output_path if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/output/"
             # save models to 
             model_ckpt_dir = self.model_ckpt_dir + modelname
             # load meatadata from
@@ -323,10 +323,10 @@ class Noduledetection(DetectionAlgorithm):
                 for fold in range(5): # train and validate each Fold
                     opt = self.parse_opt() # initial params
                     if '_l' in modelname: # larger input (1024px)
-                        opt.hyp = '/opt/algorithm/training_utils/yolov5/hyp_1024.yaml' if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/training_utils/yolov5/hyp_1024.yaml"
+                        opt.hyp = '/opt/algorithm/training_utils/yolov5/hyp_1024.yaml' if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/training_utils/yolov5/hyp_1024.yaml"
                         opt.img = 1024
                     else : # smaller input (640px)
-                        opt.hyp = '/opt/algorithm/training_utils/yolov5/hyp_640.yaml' if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/training_utils/yolov5/hyp_640.yaml"
+                        opt.hyp = '/opt/algorithm/training_utils/yolov5/hyp_640.yaml' if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/training_utils/yolov5/hyp_640.yaml"
                         opt.img = 640
                     # Write data info to yaml (bit of a hack)
                     data = {'path': str(input_dir) ,
@@ -347,7 +347,7 @@ class Noduledetection(DetectionAlgorithm):
                     if self.retrain:
                         opt.weights = self.archs[modelname][f'fold-{fold+1}'][0] 
                     else: 
-                        opt.weights = '/opt/algorithm/yolo5x_vindr.pt' if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/yolo5x_vindr.pt"
+                        opt.weights = '/opt/algorithm/yolo5x_vindr.pt' if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/yolo5x_vindr.pt"
                     # check if the model is already trained
                     if os.path.exists(model_ckpt_dir + f'/yolo-fold-{fold+1}-last.pt'): 
                         ckpt = torch.load(model_ckpt_dir + f'/yolo-fold-{fold+1}-last.pt')
@@ -365,7 +365,7 @@ class Noduledetection(DetectionAlgorithm):
             else: 
                 # Pytorch lightning pipeline
                 # load config (we need one config file for each model with all important training params etc.)
-                configpath = Path(f'/opt/algorithm/config_{modelname}.yaml') if execute_in_docker else Path(f"//home/Behrendt/projects/Node21/node21-submit/config_{modelname}.yaml/")
+                configpath = Path(f'/opt/algorithm/config_{modelname}.yaml') if execute_in_docker else Path(f"//home/Behrendt/nodetest/node21-submit/config_{modelname}.yaml/")
                 cfg = OmegaConf.load(configpath)
                 base = cfg.callbacks.model_checkpoint.monitor 
                 for fold in range(5): # iterate over folds 
@@ -378,9 +378,9 @@ class Noduledetection(DetectionAlgorithm):
                     # Init Data Module
                     datamodule: LightningDataModule = hydra.utils.instantiate(cfg.datamodule,fold = fold)
                     if 'fcrnn' in modelname:
-                        cfg.model.cfg.vindr_path = '/opt/algorithm/fastercnn50.pth' if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/fastercnn50.pth"
+                        cfg.model.cfg.vindr_path = '/opt/algorithm/fastercnn50.pth' if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/fastercnn50.pth"
                     elif 'effdet' in modelname :
-                        cfg.model.cfg.vindr_path = '/opt/algorithm/F1_E79_ModelX_v4_T0.325_V0.410.ckpt' if execute_in_docker else "//home/Behrendt/projects/Node21/node21-submit/F1_E79_ModelX_v4_T0.325_V0.410.ckpt"
+                        cfg.model.cfg.vindr_path = '/opt/algorithm/F1_E79_ModelX_v4_T0.325_V0.410.ckpt' if execute_in_docker else "//home/Behrendt/nodetest/node21-submit/F1_E79_ModelX_v4_T0.325_V0.410.ckpt"
                    
                     # Init lightning model
                     model: LightningModule = hydra.utils.instantiate(cfg.model, prefix=prefix) # what about passing cfg.datamodule here? This would also avoid e.g. the mapping of num_classes 
@@ -589,6 +589,9 @@ class Noduledetection(DetectionAlgorithm):
         if self.ensemble_per_model:
             ens_results = ensemble_boxes(agg_results_per_model,skip_boxes_thresh=0.1) 
         else:
+            print(len(agg_results))
+            # print(agg_results.)
+
             ens_results = ensemble_boxes(agg_results,skip_boxes_thresh=0.1) 
 
         # [x.pop('labels') for x in ens_results]

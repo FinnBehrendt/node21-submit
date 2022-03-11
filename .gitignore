@@ -120,7 +120,7 @@ checkpoints/notest_final/effdet_1024_gen/last_fold-5_cluster-1.ckpt
 checkpoints/ckpts_final.zip
 # *.pth
 # *.ckpt
-test/*
+# test/*
 input_train/*
 /training_utils/yolov5/runs/*
 /training_utils/yolov5/wandb/*

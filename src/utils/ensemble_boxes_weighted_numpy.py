@@ -22,13 +22,18 @@ def ensemble_boxes(outs,fusing='wbf', weights = None, iou_thresh = 0.2, skip_box
     labels = []
     scores = []
     slices_pred = []
+    # print(len(preds[0]))
+    # print(len(preds))
     for i in range(len(preds[0])) :
         for j in range(len(preds)):
+
             boxes_pred.append(preds[j][i]['boxes']) # 1 bild 
             slices_pred.append(preds[j][i]['slice']) # 1 bild 
             
             scores.append(preds[j][i]['scores'])
             labels.append(np.array([1]*len(preds[j][i]['scores'])))
+
+            
     # print(len(preds),len(preds[0]))
     # print(len(boxes_pred[0]))
     # print(len(boxes_pred[0][0]))
