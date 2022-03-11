@@ -37,7 +37,7 @@ ENV PATH="/home/algorithm/.local/bin:${PATH}"
 RUN python -m pip install --user -U pip
 RUN pip install --upgrade pip
 USER root
-RUN apt-get update 
+RUN apt-get update -y
 RUN apt-get install build-essential -y
 RUN apt-get install libtinfo5
 USER algorithm
