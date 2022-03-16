@@ -12,11 +12,30 @@ docker run --rm \
         --memory=11g \
         --shm-size 8G \
         -e NVIDIA_VISIBLE_DEVICES=0 \
-        -v $SCRIPTPATH/input_train/:/input/ \
+        -v /home/Behrendt//projects/Node21/node21-submit//input_train/:/input/ \
         -v noduledetection-output:/output/ \
         noduledetector \
         --train
-
+# docker run --rm \
+#         --network none \
+#         --gpus 0 \
+#         --memory=11g \
+#         --shm-size 8G \
+#         -e NVIDIA_VISIBLE_DEVICES=0 \
+#         -v /home/Behrendt//projects/Node21/node21-submit//input_train/:/input/ \
+#         -v noduledetection-output:/output/ \
+#         noduledetector \
+#         --retrain
+# docker run --rm \
+#         --network none \
+#         --gpus 0 \
+#         --memory=11g \
+#         --shm-size 8G \
+#         -e NVIDIA_VISIBLE_DEVICES=0 \
+#         -v $SCRIPTPATH/input_train/:/input/ \
+#         -v noduledetection-output:/output/ \
+#         noduledetector \
+#         --retest
 # docker run --rm -v noduledetection-output:/output/ python:3.7-slim cat /output/nodules.json | python3 -m json.tool
 # echo "inputs"
 # docker run --rm -v $SCRIPTPATH/test/:/input/ python:3.7-slim cat /input/expected_output.json | python3 -m json.tool

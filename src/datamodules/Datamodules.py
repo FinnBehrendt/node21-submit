@@ -140,7 +140,7 @@ class Nodule21(LightningDataModule):  # data module for CheXpert Competition Tas
                 class_count = np.unique(labels, return_counts=True)[1]
                 weight = 1. / class_count
                 # weight = np.array([1,class_count[0]/class_count[1]])
-                samples_weight = weight[labels]
+                samples_weight = weight[labels.astype(int)]
                 samples_weight = torch.from_numpy(samples_weight)
                 sampler = WeightedRandomSampler(samples_weight, int(class_count[0]*2),replacement=self.cfg.get('replacement',True))
         else:
@@ -156,7 +156,7 @@ class Nodule21(LightningDataModule):  # data module for CheXpert Competition Tas
             class_count = np.unique(labels, return_counts=True)[1]
             weight = 1. / class_count
             # weight = np.array([1,class_count[0]/class_count[1]])
-            samples_weight = weight[labels]
+            samples_weight = weight[labels.astype(int)]
             samples_weight = torch.from_numpy(samples_weight)
             sampler = WeightedRandomSampler(samples_weight,int(class_count[1]*2),replacement=False)
         else:
