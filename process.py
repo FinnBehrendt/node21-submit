@@ -215,6 +215,10 @@ class Noduledetection(DetectionAlgorithm):
                             self.model = Detector.load_from_checkpoint(ckpt,map_location=self.device)
                             print('USING D')
                         elif 'yolo' in str(ckpt).lower():       
+                            files = os.listdir(ckpt.parents[0])
+                            for item in files: # we need to make sure that there are no image files 
+                                if item.endswith(".jpg") or item.endswith(".png"):
+                                    os.remove(os.path.join(ckpt.parents[0], item))    
                             modelpath = Path("/opt/algorithm/training_utils/yolov5") if execute_in_docker else Path("//home/Behrendt/projects/Node21/node21-submit/training_utils/yolov5/")
                             self.model = torch.hub.load(modelpath, 'custom', path=ckpt, autoshape=True,force_reload=True, source='local',device=self.device) # local model
                             self.yolo = True
