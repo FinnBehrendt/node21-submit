@@ -6,50 +6,28 @@ callbacks:
     auto_insert_metric_name: False
     save_last: True
     mode: "max"
-    # prefix: ''
     dirpath: "checkpoints/"
     filename: "epoch-{epoch}_step-{step}_loss-{1/val/Competition_metric/:.2f}"
-    #period: 1
 
   SWA:
     _target_: pytorch_lightning.callbacks.stochastic_weight_avg.StochasticWeightAveraging
-    swa_epoch_start: 15 # fix the number of Epochs! to 20 here 
-    # swa_lrs: NONE
+    swa_epoch_start: 15 
     annealing_epochs: 5
     annealing_strategy: 'cos'
 
 datamodule:
-# Configfile for the NIH8 DataSet
   _target_: src.datamodules.Datamodules.Nodule21
-
   cfg:
     name: Nodule21
     model: ${model.cfg.name}
     path:
-
       train:
         images: 
         labels: 
-          # - ${data_dir}/proccessed_data/splits/nodule_train_fold0.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_train_fold1.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_train_fold2.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_train_fold3.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_train_fold4.csv
-        # cluster: 
-        #   - ${data_dir}/proccessed_data/splits/cluster.csv
-      # test: ## use the sampled test set as final test set
-      #   images: ${data_dir}/
-      #   labels: ${data_dir}/proccessed_data/splits/nodule_test.csv
-        
   
       val:  ## part of train set
         images: 
         labels: 
-          # - ${data_dir}/proccessed_data/splits/nodule_val_fold0.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_val_fold1.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_val_fold2.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_val_fold3.csv
-          # - ${data_dir}/proccessed_data/splits/nodule_val_fold4.csv
 
     sample_set: False
     preload : False
@@ -57,11 +35,11 @@ datamodule:
     imbalancedSampling: True
     imbalancedSamplingTest: True
     new_shape: 1024   ##length of the square image
-    replacement: True # TBI
+    replacement: True 
     num_gpus : 1
-    batch_size: 8
+    batch_size: 4
     num_workers: 2
-    lr : 0.001
+    lr : 1e-4
     test: False
     colorJitter: False
     brightness: 0.05 # colorjitter brightness
@@ -73,26 +51,18 @@ datamodule:
     cropsize: 900
     invertIntensity: False
     vinDR_augment: True
-    # class_weighting: True
     effdet: True
     all_sets_mixed: True # use v3 split!
     final_set: True
-    # Cropping / MIL
     
-    cropStrat: downsample # single_resized_crop multi_crop downsampling  
-    # num_crops: 5
-    # shape_before_crop: 800 
-    # shape_before_resize: 0.8  # single_resized_crop
-    vindr_path: None
+    cropStrat: downsample 
+
 trainer: 
   _target_: pytorch_lightning.Trainer
-
-  # set `1` to train on GPU, `0` to train on CPU only
-  #gpus: 2
-
   gpus: [0] # -1
   min_epochs: 1
-  max_epochs: 20
+  max_epochs: 20 #20
+  # limit_train_batches: 0.5
   gradient_clip_val: 3.0
   # accelerator: ddp
   sync_batchnorm: True
@@ -107,19 +77,15 @@ trainer:
   num_sanity_val_steps : 0 # This does not work with dp, only with ddp
   # val_check_interval: 1
   check_val_every_n_epoch: 10
-  benchmark: True
+  benchmark: False
   deterministic: False
   replace_sampler_ddp: True
-  # resume_from_checkpoint : "/home-alt/satish/logs/runs/DenseNet_Chexpert_competition_ExpName2021-10-21/23-11-46/checkpoints/last.ckpt" # epoch=2-step=53.ckpt"
-
 
 model:
   _target_: src.models.Detector_effdet.Detector
   cfg:
     name: EfficientDet
-    # version: tf_efficientnetv2_l
     version: tf_efficientdet_d2
-    # backbone_vers: efficientnet_b1
     decision_thres: 0.5
     lr: ${datamodule.cfg.lr}
     LR_Scheduler: custom
@@ -128,9 +94,7 @@ model:
     weight_decay: 1e-5
     batch_size: ${datamodule.cfg.batch_size}
     new_shape: ${datamodule.cfg.new_shape}
-    # loss_reduction : 'none'
     optim : Adam
-    # class_weighting: ${datamodule.cfg.class_weighting}
     multiCrop: False
     combineCrops: 'mean'
     cropAttention: False
@@ -141,5 +105,7 @@ model:
     prediction_confidence_threshold: 0.05
     vindr_weights: True
     custom_optim: False
+    LR_warmup: False
+    vindr_path: /opt/algorithm/F1_E79_ModelX_v4_T0.325_V0.410.ckpt
 
   

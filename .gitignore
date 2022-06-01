@@ -150,3 +150,4 @@ input_train/*
 !checkpoints/notest_final/yolo_640_gen/fold-3-best.pt 
 !yolo5x_vindr.pt
 
+log_train.txt

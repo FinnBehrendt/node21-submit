@@ -43,7 +43,7 @@ class EffDet(nn.Module): #
         if cfg.get('vindr_weights',False):
             
             try:
-                state_dict = torch.load(cfg.get('vindr_path','/opt/algorithm/fastercnn50.pth'),map_location=torch.device('cpu'))['model_state_dict']
+                state_dict = torch.load(cfg.get('vindr_path','/opt/algorithm/F1_E79_ModelX_v4_T0.325_V0.410.ckpt'),map_location=torch.device('cpu'))['model_state_dict']
                 new_statedict = OrderedDict()
                 for key_load,key in zip(state_dict,model.state_dict()): 
                     new_statedict[key] = state_dict[key_load]
@@ -52,6 +52,7 @@ class EffDet(nn.Module): #
                 del new_statedict["class_net.predict.conv_pw.bias"]
                 model.load_state_dict(new_statedict,strict=False)
             except:
+                # pass
                 print('FAILED TO LOAD STATE DICT - THIS IS OK IN EVALUATION')
         if cfg.num_classes is not None and cfg.num_classes != config.num_classes:
             model.reset_head(num_classes=cfg.num_classes)

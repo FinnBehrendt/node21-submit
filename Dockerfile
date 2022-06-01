@@ -1,11 +1,8 @@
 # Edit the base image here, e.g., to use 
 # TENSORFLOW (https://hub.docker.com/r/tensorflow/tensorflow/) 
 # or a different PYTORCH (https://hub.docker.com/r/pytorch/pytorch/) base image
-# FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-runtime
-# FROM pytorch/pytorch:1.10.0-cuda11.3-cudnn8-devel
+
 FROM pytorch/pytorch:1.9.1-cuda11.1-cudnn8-runtime
-# FROM pytorch/pytorch:latest
-# FROM continuumio/anaconda3
 RUN groupadd -r algorithm && useradd -m --no-log-init -r -g algorithm algorithm
 
 RUN mkdir -p /opt/algorithm/checkpoints/ /input /output /opt/algorithm/src/ /opt/conda  \
@@ -47,18 +44,11 @@ USER algorithm
 # Copy all required files so that they are available within the docker image 
 # All the codes, weights, anything you need to run the algorithm!
 COPY --chown=algorithm:algorithm requirements.txt /opt/algorithm/
-RUN python -m pip install --user https://github.com/ufoym/imbalanced-dataset-sampler/archive/master.zip
+RUN python -m pip install torchsampler
 RUN python -m pip install --user -rrequirements.txt
 COPY --chown=algorithm:algorithm entrypoint.sh /opt/algorithm/
 COPY --chown=algorithm:algorithm checkpoints/ /opt/algorithm/checkpoints/
-# COPY --chown=algorithm:algorithm resnet50-19c8e357.pth  /home/algorithm/.cache/torch/hub/checkpoints/resnet50-19c8e357.pth
-# COPY --chown=algorithm:algorithm fasterrcnn_resnet50_fpn_coco-258fb6c6.pth /home/algorithm/.cache/torch/hub/checkpoints/fasterrcnn_resnet50_fpn_coco-258fb6c6.pth
-# COPY --chown=algorithm:algorithm retinanet_resnet50_fpn_coco-eeacb38b.pth /home/algorithm/.cache/torch/hub/checkpoints/retinanet_resnet50_fpn_coco-eeacb38b.pth
 COPY --chown=algorithm:algorithm resnet50-0676ba61.pth /home/algorithm/.cache/torch/hub/checkpoints/resnet50-0676ba61.pth
-# COPY --chown=algorithm:algorithm tf_efficientdet_d3_ap-e4a2feab.pth /home/algorithm/.cache/torch/hub/checkpoints/tf_efficientdet_d3_ap-e4a2feab.pth
-# COPY --chown=algorithm:algorithm tf_efficientdet_d4_ap-f601a5fc.pth /home/algorithm/.cache/torch/hub/checkpoints/tf_efficientdet_d4_ap-f601a5fc.pth 
-# COPY --chown=algorithm:algorithm detr-r50-e632da11.pth /home/algorithm/.cache/torch/hub/checkpoints/detr-r50-e632da11.pth
-# COPY --chown=algorithm:algorithm /ultralytics_yolov5_master/ /opt/algorithm/ultralytics_yolov5_master/
 COPY --chown=algorithm:algorithm /.config /home/algorithm/.config
 COPY --chown=algorithm:algorithm src /opt/algorithm/src
 COPY --chown=algorithm:algorithm plt-nodule.yml /opt/algorithm/plt-nodule.yml
@@ -73,10 +63,7 @@ COPY --chown=algorithm:algorithm yolo5x_vindr.pt /opt/algorithm/yolo5x_vindr.pt
 COPY --chown=algorithm:algorithm config_retina_l.yaml /opt/algorithm/config_retina_l.yaml
 COPY --chown=algorithm:algorithm config_effdet2_l.yaml /opt/algorithm/config_effdet2_l.yaml
 COPY --chown=algorithm:algorithm config_fcrnn_l.yaml /opt/algorithm/config_fcrnn_l.yaml
-# RUN chown -R algorithm:algorithm *
-# RUN conda env create -f plt-nodule.yml
-# RUN echo "source activate env" > ~/.bashrc
-# ENV PATH /opt/conda/envs/env/bin:$PATH
+
 
 COPY --chown=algorithm:algorithm process.py postprocessing.py /opt/algorithm/
 

@@ -2,20 +2,20 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 # echo $SCRIPTPATH
-# . ./build.sh
+. ./build.sh
 
 docker volume create noduledetection-output
-# docker run --rm nvidia-smi
-docker run --rm \
+
+time docker run --rm \
         --network none \
-        --gpus 0 \
-        --memory=11g \
-        --shm-size 8G \
+        --gpus all \
+        --memory=20g \
+        --shm-size 16G \
         -e NVIDIA_VISIBLE_DEVICES=0 \
         -v /home/Behrendt//projects/Node21/node21-submit//input_train/:/input/ \
-        -v noduledetection-output:/output/ \
+        -v /home/Behrendt//projects/Node21/node21-submit/output:/output/ \
         noduledetector \
-        --train
+        --train  >&1 | tee -a log_train.txt
 # docker run --rm \
 #         --network none \
 #         --gpus 0 \
@@ -26,16 +26,16 @@ docker run --rm \
 #         -v noduledetection-output:/output/ \
 #         noduledetector \
 #         --retrain
-# docker run --rm \
-#         --network none \
-#         --gpus 0 \
-#         --memory=11g \
-#         --shm-size 8G \
-#         -e NVIDIA_VISIBLE_DEVICES=0 \
-#         -v $SCRIPTPATH/input_train/:/input/ \
-#         -v noduledetection-output:/output/ \
-#         noduledetector \
-#         --retest
+docker run --rm \
+        --network none \
+        --gpus all \
+        --memory=20g \
+        --shm-size 16G \
+        -e NVIDIA_VISIBLE_DEVICES=0 \
+        -v /home/Behrendt/projects/Node21/node21-submit/output/:/input/ \
+        -v noduledetection-output:/output/ \
+        noduledetector \
+        --retest
 # docker run --rm -v noduledetection-output:/output/ python:3.7-slim cat /output/nodules.json | python3 -m json.tool
 # echo "inputs"
 # docker run --rm -v $SCRIPTPATH/test/:/input/ python:3.7-slim cat /input/expected_output.json | python3 -m json.tool
