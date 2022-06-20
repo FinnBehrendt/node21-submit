@@ -84,9 +84,10 @@ class Noduledetection(DetectionAlgorithm):
 
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print('using the device ', self.device)
         if train or retrain:
             self.device = torch.device("cpu")
-        print('using the device ', self.device)
+
         print('torch version: ',torch.__version__)
         print('python version: ',sys.version)
         self.input_path, self.output_path = input_dir, output_dir

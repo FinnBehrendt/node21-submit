@@ -104,7 +104,7 @@ trainer:
 
   gpus: [0] # -1
   min_epochs: 1
-  max_epochs: 20 #20
+  max_epochs: 25 #20
   # limit_train_batches: 0.5
   gradient_clip_val: 3.0
   # accelerator: ddp
