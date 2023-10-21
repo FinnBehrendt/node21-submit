@@ -11,13 +11,14 @@ For the generation of additional Nodules, only the process.py script from the [g
 The paper describing our approach is available [HERE](https://www.nature.com/articles/s41598-023-37270-2).
 
 If you make use of this method, we would be happy if you cite our work:
-@article{behrendt2023systematic,
-  title={A systematic approach to deep learning-based nodule detection in chest radiographs},
-  author={Behrendt, Finn and Bengs, Marcel and Bhattacharya, Debayan and Kr{\"u}ger, Julia and Opfer, Roland and Schlaefer, Alexander},
-  journal={Scientific Reports},
-  volume={13},
-  number={1},
-  pages={10120},
-  year={2023},
-  publisher={Nature Publishing Group UK London}
-}
+
+    @article{behrendt2023systematic,
+      title={A systematic approach to deep learning-based nodule detection in chest radiographs},
+      author={Behrendt, Finn and Bengs, Marcel and Bhattacharya, Debayan and Kr{\"u}ger, Julia and Opfer, Roland and Schlaefer, Alexander},
+      journal={Scientific Reports},
+      volume={13},
+      number={1},
+      pages={10120},
+      year={2023},
+      publisher={Nature Publishing Group UK London}
+    }
