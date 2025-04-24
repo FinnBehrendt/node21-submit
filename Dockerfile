@@ -34,18 +34,43 @@ ENV PATH="/home/algorithm/.local/bin:${PATH}"
 RUN python -m pip install --user -U pip
 RUN pip install --upgrade pip
 USER root
-RUN apt-get update -y
-RUN apt-get install build-essential -y
-RUN apt-get install libtinfo5
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl build-essential gcc g++  libtinfo5 bash ninja-build \
+    python3-dev software-properties-common \
+ && apt-get clean
+
+# Install modern CMake (3.27.9)
+RUN curl -LO https://github.com/Kitware/CMake/releases/download/v3.27.9/cmake-3.27.9-linux-x86_64.sh \
+ && chmod +x cmake-3.27.9-linux-x86_64.sh \
+ && ./cmake-3.27.9-linux-x86_64.sh --skip-license --prefix=/usr/local \
+ && rm cmake-3.27.9-linux-x86_64.sh
+RUN apt-get update && apt-get install -y git
+
+# Verify it's the right version
+RUN cmake --version
+# Install Rust, set default toolchain, and install Python deps — all in one bash shell
 USER algorithm
-
-
-
-# Copy all required files so that they are available within the docker image 
-# All the codes, weights, anything you need to run the algorithm!
 COPY --chown=algorithm:algorithm requirements.txt /opt/algorithm/
+
+RUN python -m pip install --user scikit-build 
+# Installieren Sie pre-built Wheel von pycocotools
+RUN pip install "pycocotools>=2.0.4" --no-build-isolation
+
+# # Installieren Sie pre-built Wheel von SimpleITK
+RUN pip install "SimpleITK>=2.1.0" --no-build-isolation 
+RUN bash -c "\
+    curl https://sh.rustup.rs -sSf | bash -s -- -y && \
+    source $HOME/.cargo/env && \
+    rustup default stable && \
+    rustc --version && \
+    cargo --version && \
+    export PATH=$HOME/.cargo/bin:$PATH && \
+    python -m pip install --user -U pip && \
+    python -m pip install --user -r /opt/algorithm/requirements.txt"
 RUN python -m pip install torchsampler
-RUN python -m pip install --user -rrequirements.txt
+# RUN python -m pip install --user -rrequirements.txt
 COPY --chown=algorithm:algorithm entrypoint.sh /opt/algorithm/
 COPY --chown=algorithm:algorithm checkpoints/ /opt/algorithm/checkpoints/
 COPY --chown=algorithm:algorithm resnet50-0676ba61.pth /home/algorithm/.cache/torch/hub/checkpoints/resnet50-0676ba61.pth

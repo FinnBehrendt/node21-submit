@@ -229,6 +229,7 @@ class Noduledetection(DetectionAlgorithm):
                         else: 
                             from src.models.Detector import Detector as Detector
                             self.effdet = False
+                            print(ckpt)
                             self.model = Detector.load_from_checkpoint(ckpt,map_location=self.device)
                             # print('loading: ',ckpt)
                     

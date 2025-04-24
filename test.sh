@@ -8,11 +8,18 @@ docker volume create noduledetection-output
 
 docker run --rm \
         --network none \
-        --gpus all \
         --memory=11g \
         -v $SCRIPTPATH/test/:/input/ \
         -v noduledetection-output:/output/ \
         noduledetector
+
+# docker run --rm \
+#         --network none \
+#         --gpus all \
+#         --memory=11g \
+#         -v $SCRIPTPATH/test/:/input/ \
+#         -v noduledetection-output:/output/ \
+#         noduledetector
 # docker run --rm \
 #         --network none \
 #         --gpus all \

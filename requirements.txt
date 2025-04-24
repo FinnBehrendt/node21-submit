@@ -1,6 +1,6 @@
 albumentations
 effdet
-timm
+timm==0.4.12
 absl-py==0.15.0
 aiohttp==3.8.0
 aiosignal==1.2.0
@@ -41,7 +41,7 @@ hydra-colorlog==1.1.0
 hydra-core==1.1.1
 idna==3.3
 imageio==2.10.3
-install==1.3.4
+pip-install==1.3.4
 jinja2-time==0.2.0
 joblib==1.1.0
 keras==2.7.0
@@ -69,7 +69,7 @@ protobuf==3.19.1
 psutil==5.8.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-pycocotools==2.0.2
+# pycocotools==2.0.2
 pydeprecate==0.3.1
 pydicom==2.2.2
 pyerf==1.0.1
