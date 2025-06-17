@@ -29,9 +29,6 @@ import os
 import itertools
 from pathlib import Path
 from postprocessing import get_NonMaxSup_boxes, PostProcess
-from omegaconf import DictConfig
-from src.utils.utils import xyxy2yxyx, yxyx2xyxy
-# Config stuff
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import glob
@@ -79,6 +76,8 @@ class Noduledetection(DetectionAlgorithm):
             output_file = Path(os.path.join(output_dir,'nodules.json')) if execute_in_docker else Path(os.path.join('//home/Behrendt/projects/Node21/node21-submit/output/','nodules.json'))
 
         )
+        self._case_results = []  # Store results with case info
+        
         self.retrain = retrain
         ### Model ###
 
@@ -237,10 +236,48 @@ class Noduledetection(DetectionAlgorithm):
                         self.models[arch][fold].append(self.model)
         if retrain: 
             self.archs = archs
-        
     def save(self):
+        # Debug: Print the structure of _case_results
+        print(f"Number of case results: {len(self._case_results)}")
+        if self._case_results:
+            print(f"First case result keys: {self._case_results[0].keys()}")
+            print(f"First case result: {self._case_results[0]}")
+        
+        # Save individual JSON files for each case
+        for case_result in self._case_results:
+            # Check if case_name exists in the result
+            if 'case_name' not in case_result:
+                print(f"Warning: case_name not found in case_result. Available keys: {case_result.keys()}")
+                continue
+                
+            case_name = case_result['case_name']
+            result_data = case_result['data']
+            
+            # Create output filename: name.mha -> name_output.json
+            output_filename = case_name.replace('.mha', '_output.json')
+            output_path = self.output_path + '/' + output_filename
+            
+            with open(str(output_path), "w") as f:
+                json.dump(result_data, f, indent=2)
+            
+            print(f"Saved results for {case_name} to {output_filename}")
+        
+        # Optionally, also create the combined nodules.json as before
+        all_boxes = []
+        for case_result in self._case_results:
+            if 'data' in case_result and 'boxes' in case_result['data']:
+                all_boxes.extend(case_result['data']['boxes'])
+        
+        combined_result = {
+            "type": "Multiple 2D bounding boxes",
+            "boxes": all_boxes,
+            "version": {"major": 1, "minor": 0}
+        }
+        
+        # Save combined results
         with open(str(self._output_file), "w") as f:
-            json.dump(self._case_results[0], f)
+            json.dump(combined_result, f, indent=2)
+
             
     # TODO: Copy this function for your processor as well!
     def process_case(self, *, idx, case):
@@ -254,11 +291,18 @@ class Noduledetection(DetectionAlgorithm):
         '''
         # Load and test the image for this case
         input_image, input_image_file_path = self._load_input_image(case=case)
-        
+        case_name = Path(input_image_file_path).name
+        print('Processing case: ', case_name)
         # Detect and score candidates
         scored_candidates = self.predict(input_image=input_image)
         
-        # Write resulting candidates to nodules.json for this case
+        case_result = {
+            'case_name': case_name,
+            'data': scored_candidates,
+            'file_path': input_image_file_path
+        }
+        self._case_results.append(case_result)
+        
         return scored_candidates
     
    
@@ -703,11 +747,11 @@ if __name__ == "__main__":
         Noduledetection(parsed_args.input_dir, parsed_args.output_dir, parsed_args.train, parsed_args.retrain, parsed_args.retest).train()
     else:# test mode (test or retest)
         Noduledetection(parsed_args.input_dir, parsed_args.output_dir, retest=parsed_args.retest).process()
-            
-    
-   
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
